@@ -1,0 +1,66 @@
+# Types
+- name: build
+  color: e26f16
+  description: Changes that affect the build system or external dependencies. (example= gulp, npm)
+
+- name: chore
+  color: 73421f
+  description: Other changes that don't modify src or test files
+
+- name: ci
+  color: 6100B6
+  description: Changes to our CI configuration files and scripts (example= Travis, Github Actions)
+
+- name: docs
+  color: 0496ff
+  description: Documentation only changes
+
+- name: feat
+  color: 014b04
+  description: A new feature
+
+- name: fix
+  color: d9ed92
+  description: A bug Fix
+
+- name: perf
+  color: 006B75
+  description: A code change that improves performance
+
+- name: refactor
+  color: 014a9e
+  description: A code change that neither fixes a bug nor adds a feature
+
+- name: revert
+  color: 2e2887
+  description: Reverts a previous commit
+
+- name: style
+  color: D415D2
+  description: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons)
+
+- name: test
+  color: fbca04
+  description: Adding missing tests or correcting existing tests
+
+# General Tags
+- name: bug
+  color: d6000a
+  description: Something isn't working
+
+- name: major
+  color: 003366
+  description: version when you make incompatible API changes
+
+- name: minor
+  color: 0099ff
+  description: version when you add functionality in a backwards compatible manner
+
+- name: patch
+  color: 00ffff
+  description: version when you make backwards compatible bug fixes
+
+# Special Tags
+- name: hacktoberfest
+  color: f74700
+  description: hacktoberfest.digitalocean.com
