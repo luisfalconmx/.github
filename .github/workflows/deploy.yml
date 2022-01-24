@@ -1,0 +1,96 @@
+name: Deploy
+
+on:
+  workflow_call:
+    inputs:
+      NAME:
+        description: Enter a name for the job
+        type: string
+        required: false
+        default: Deploy
+
+      RUNS_ON:
+        description: use runs-on to define the type of machine to run the job on.
+        type: string
+        required: false
+        default: ubuntu-latest
+
+      TIMEOUT_MINUTES:
+        description: Specifies the maximum execution time of the job (in minutes)
+        type: number
+        required: false
+        default: 25
+
+      ENVIRONMENT:
+        description: Specifies the environment to use for the job
+        type: string
+        required: false
+        default: production
+
+      URL:
+        description: Enter the url where the site will be displayed
+        type: string
+        required: false
+        default: ${{github.event.repository.homepage}}
+
+      SCRIPT:
+        description: Enter the script to be executed on the server
+        type: string
+        required: true
+
+    secrets:
+      SSH_HOST:
+        required: true
+      SSH_PORT:
+        required: true
+      SSH_USER:
+        required: true
+      SSH_KEY:
+        required: true
+
+jobs:
+  deploy:
+    name: ${{inputs.NAME}}
+    runs-on: ${{inputs.RUNS_ON}}
+    timeout-minutes: ${{inputs.TIMEOUT_MINUTES}}
+    environment: ${{inputs.ENVIRONMENT}}
+    env:
+      REPOSITORY_DEFAULT_BRANCH: ${{github.event.repository.default_branch}}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Create github deployment
+        uses: chrnorm/deployment-action@releases/v1
+        id: deployment
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          target_url: ${{inputs.URL}}
+          environment: ${{inputs.ENVIRONMENT}}
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.SSH_HOST}}
+          port: ${{secrets.SSH_PORT}}
+          username: ${{secrets.SSH_USER}}
+          key: ${{secrets.SSH_KEY}}
+          script: ${{inputs.SCRIPT}}
+
+      - name: Update deployment status (success)
+        if: success()
+        uses: chrnorm/deployment-status@releases/v1
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          target_url: ${{inputs.URL}}
+          state: success
+          deployment_id: ${{steps.deployment.outputs.deployment_id}}
+
+      - name: Update deployment status (failure)
+        if: failure()
+        uses: chrnorm/deployment-status@releases/v1
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          target_url: ${{inputs.URL}}
+          state: failure
+          deployment_id: ${{steps.deployment.outputs.deployment_id}}
