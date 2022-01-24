@@ -3,27 +3,49 @@ name: Analyze
 on:
   workflow_call:
     inputs:
-      username:
-        required: false
+      NAME:
+        description: Enter a name for the job
         type: string
+        required: false
+        default: Analyze
+
+      TIMEOUT_MINUTES:
+        description: Specifies the maximum execution time of the job (in minutes)
+        type: number
+        required: false
+        default: 25
+
+      RUNS_ON:
+        description: use runs-on to define the type of machine to run the job on
+        type: string
+        required: false
+        default: ubuntu-latest
+
+      LANGUAGES:
+        description: Enter the name of the programming languages that will be analyzed. (separated by commas)
+        type: string
+        required: true
 
 jobs:
   analyze:
-    runs-on: ubuntu-latest
-    timeout-minutes: 25
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    name: ${{ inputs.NAME }}
+    timeout-minutes: ${{ inputs.TIMEOUT_MINUTES }}
+    runs-on: ${{ inputs.RUNS_ON }}
     permissions:
       actions: read
       contents: read
       security-events: write
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
         with:
-          languages: javascript
+          languages: ${{ inputs.LANGUAGES }}
 
       - name: Autobuild
         uses: github/codeql-action/autobuild@v1
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v1
