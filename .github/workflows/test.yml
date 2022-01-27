@@ -3,25 +3,25 @@ name: Test
 on:
   workflow_call:
     inputs:
-      NAME:
+      name:
         description: Enter a name for the job
         type: string
         required: false
         default: Test
 
-      RUNS_ON:
+      runs-on:
         description: use runs-on to define the type of machine to run the job on.
         type: string
         required: false
         default: ubuntu-latest
 
-      TIMEOUT_MINUTES:
+      timeout-minutes:
         description: Specifies the maximum execution time of the job (in minutes)
         type: number
         required: false
         default: 25
 
-      TEST_COMMAND:
+      test-command:
         description: Enter the command to run the tests
         type: string
         required: true
@@ -32,12 +32,11 @@ on:
 
 jobs:
   test:
-    name: ${{ inputs.NAME }}
-    runs-on: ${{ inputs.RUNS_ON }}
-    timeout-minutes: ${{ inputs.TIMEOUT_MINUTES }}
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    name: ${{inputs.name}}
+    runs-on: ${{inputs.runs-on}}
+    timeout-minutes: ${{inputs.timeout-minutes}}
     env:
-      REPOSITORY_SLUG: ${{ github.event.repository.name }}
+      REPOSITORY_SLUG: ${{github.event.repository.name}}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -48,11 +47,11 @@ jobs:
       - name: Download artifact
         uses: actions/download-artifact@v2
         with:
-          name: ${{ env.REPOSITORY_SLUG }}
+          name: ${{env.REPOSITORY_SLUG}}
           path: /tmp
 
       - name: Load Image
-        run: docker load --input /tmp/${{ env.REPOSITORY_SLUG }}.tar
+        run: docker load --input /tmp/${{env.REPOSITORY_SLUG}}.tar
 
-      - name: Run Tests
-        run: docker run ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.REPOSITORY_SLUG }}:latest ${{ inputs.TEST_COMMAND }}
+      - name: Run Test Command
+        run: docker run ${{secrets.DOCKERHUB_USERNAME}}/${{env.REPOSITORY_SLUG}}:latest ${{inputs.test-command}}

@@ -3,26 +3,26 @@ name: Release
 on:
   workflow_call:
     inputs:
-      NAME:
+      name:
         description: Enter a name for the job
         type: string
         required: false
         default: Release Drafter
 
-      RUNS_ON:
+      runs-on:
         description: Use runs-on to define the type of machine to run the job on.
         type: string
         required: false
         default: ubuntu-latest
 
-      TIMEOUT_MINUTES:
+      timeout-minutes:
         description: Specifies the maximum execution time of the job (in minutes)
         type: number
         required: false
         default: 25
 
     secrets:
-      PAT:
+      PERSONAL_ACCESS_TOKEN:
         required: true
       DOCKERHUB_USERNAME:
         required: true
@@ -35,9 +35,9 @@ on:
 
 jobs:
   release:
-    name: ${{inputs.NAME}}
-    runs-on: ${{inputs.RUNS_ON}}
-    timeout-minutes: ${{inputs.TIMEOUT_MINUTES}}
+    name: ${{inputs.name}}
+    runs-on: ${{inputs.runs-on}}
+    timeout-minutes: ${{inputs.timeout-minutes}}
     env:
       REPOSITORY_SLUG: ${{github.event.repository.name}}
       REPOSITORY_DESCRIPTION: ${{github.event.repository.description}}
@@ -58,12 +58,12 @@ jobs:
         run: npm version ${{env.NPM_VERSION}} --allow-same-version --no-git-tag-version
 
       - name: Commit Release Files
-        uses: EndBug/add-and-commit@v7
+        uses: EndBug/add-and-commit@v8
         with:
+          add: package.json
           author_name: github-actions[bot]
           author_email: github-actions[bot]@users.noreply.github.com
           message: 'ci: release files updated [skip ci]'
-          add: package.json
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1

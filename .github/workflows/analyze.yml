@@ -3,34 +3,34 @@ name: Analyze
 on:
   workflow_call:
     inputs:
-      NAME:
+      name:
         description: Enter a name for the job
         type: string
         required: false
         default: Analyze
 
-      TIMEOUT_MINUTES:
+      timeout-minutes:
         description: Specifies the maximum execution time of the job (in minutes)
         type: number
         required: false
         default: 25
 
-      RUNS_ON:
+      runs-on:
         description: use runs-on to define the type of machine to run the job on
         type: string
         required: false
         default: ubuntu-latest
 
-      LANGUAGES:
+      languages:
         description: Enter the name of the programming languages that will be analyzed. (separated by commas)
         type: string
         required: true
 
 jobs:
   analyze:
-    name: ${{ inputs.NAME }}
-    timeout-minutes: ${{ inputs.TIMEOUT_MINUTES }}
-    runs-on: ${{ inputs.RUNS_ON }}
+    name: ${{inputs.name}}
+    timeout-minutes: ${{inputs.timeout-minutes}}
+    runs-on: ${{inputs.runs-on}}
     permissions:
       actions: read
       contents: read
@@ -42,7 +42,7 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v1
         with:
-          languages: ${{ inputs.LANGUAGES }}
+          languages: ${{inputs.languages}}
 
       - name: Autobuild
         uses: github/codeql-action/autobuild@v1
