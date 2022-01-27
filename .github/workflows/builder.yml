@@ -1,4 +1,4 @@
-name: Build
+name: Builder
 
 on:
   workflow_call:
@@ -7,10 +7,10 @@ on:
         description: Enter a name for the job
         type: string
         required: false
-        default: Build
+        default: Builder
 
       runs-on:
-        description: use runs-on to define the type of machine to run the job on.
+        description: use runs-on to define the type of machine to run the job on
         type: string
         required: false
         default: ubuntu-latest
@@ -22,23 +22,27 @@ on:
         default: 25
 
       dockerfile:
-        description: Enter the name of the docker file
+        description: Enter the Dockerfile that will be used to build the image
         type: string
         required: false
         default: Dockerfile
 
-    secrets:
-      DOCKERHUB_USERNAME:
+      image-name:
+        description: Enter the name of the image
+        type: string
         required: true
 
+      image-tag:
+        description: Enter the label that will serve to identify the image in future works
+        type: string
+        required: false
+        default: latest
+
 jobs:
-  build:
+  builder:
     name: ${{inputs.name}}
     runs-on: ${{inputs.runs-on}}
     timeout-minutes: ${{inputs.timeout-minutes}}
-    env:
-      REPOSITORY_SLUG: ${{github.event.repository.name}}
-      IMAGE_NAME: ${{secrets.DOCKERHUB_USERNAME}}/${{github.event.repository.name}}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -54,11 +58,13 @@ jobs:
         with:
           context: .
           file: ${{inputs.dockerfile}}
-          tags: ${{env.IMAGE_NAME}}:latest
-          outputs: type=docker,dest=/tmp/${{env.REPOSITORY_SLUG}}.tar
+          outputs: type=docker,dest=/tmp/${{inputs.image-tag}}.tar
+          tags: |
+            docker.io/${{inputs.image-name}}:${{inputs.image-tag}}
+            ghcr.io/${{inputs.image-name}}:${{inputs.image-tag}}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{env.REPOSITORY_SLUG}}
-          path: /tmp/${{env.REPOSITORY_SLUG}}.tar
+          name: ${{inputs.image-tag}}
+          path: /tmp/${{inputs.image-tag}}.tar

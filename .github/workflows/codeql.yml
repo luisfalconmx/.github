@@ -1,4 +1,4 @@
-name: Analyze
+name: CodeQL
 
 on:
   workflow_call:
@@ -7,7 +7,7 @@ on:
         description: Enter a name for the job
         type: string
         required: false
-        default: Analyze
+        default: CodeQL Scan
 
       timeout-minutes:
         description: Specifies the maximum execution time of the job (in minutes)
@@ -27,7 +27,7 @@ on:
         required: true
 
 jobs:
-  analyze:
+  codeQL:
     name: ${{inputs.name}}
     timeout-minutes: ${{inputs.timeout-minutes}}
     runs-on: ${{inputs.runs-on}}
