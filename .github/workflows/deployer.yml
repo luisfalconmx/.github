@@ -75,3 +75,6 @@ jobs:
         with:
           branch: gh-pages
           folder: dist
+          git-config-name: "github-actions[bot]"
+          git-config-email: "github-actions[bot]@users.noreply.github.com"
+          commit-message: "ci: deploy to gh-pages [skip ci]"
