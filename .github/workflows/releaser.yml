@@ -7,7 +7,7 @@ on:
         description: Enter a name for the job
         type: string
         required: false
-        default: Releaser
+        default: 📦 Release Project
 
       runs-on:
         description: Use runs-on to define the type of machine to run the job on.
@@ -79,12 +79,6 @@ jobs:
           token: ${{secrets.PERSONAL_ACCESS_TOKEN}}
           ref: ${{env.REPOSITORY_DEFAULT_BRANCH}}
 
-      - name: Run release drafter
-        uses: release-drafter/release-drafter@v5
-        if: ${{inputs.pre-release}}
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
       - name: Update Version in package.json File
         if: ${{!inputs.pre-release}}
         run: npm version ${{github.event.release.tag_name}} --allow-same-version --no-git-tag-version
@@ -94,7 +88,7 @@ jobs:
         if: ${{!inputs.pre-release}}
         with:
           add: package.json
-          message: 'build: version updated [skip ci]'
+          message: "build: version updated [skip ci]"
           author_name: github-actions[bot]
           author_email: github-actions[bot]@users.noreply.github.com
 

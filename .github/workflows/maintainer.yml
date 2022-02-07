@@ -7,7 +7,7 @@ on:
         description: Enter a name for the job
         type: string
         required: false
-        default: Maintainer
+        default: ⚙️ Maintainer
 
       runs-on:
         description: use runs-on to define the type of machine to run the job on
@@ -24,7 +24,7 @@ on:
       image-name:
         description: Enter the name of the image
         type: string
-        required: true
+        required: false
 
     secrets:
       PERSONAL_ACCESS_TOKEN:
@@ -54,6 +54,11 @@ jobs:
           token: ${{secrets.PERSONAL_ACCESS_TOKEN}}
           ref: ${{env.REPOSITORY_DEFAULT_BRANCH}}
 
+      - name: Run release drafter
+        uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
       - name: Synchronize Labels
         uses: julb/action-manage-label@v1
         with:
@@ -69,7 +74,7 @@ jobs:
           files: README.md
           committer_name: github-actions[bot]
           committer_email: github-actions[bot]@users.noreply.github.com
-          commit_message: 'docs: update readme file [skip ci]'
+          commit_message: "docs: update readme file [skip ci]"
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
@@ -89,7 +94,7 @@ jobs:
         uses: EndBug/add-and-commit@v8
         with:
           add: .github/screenshot.png
-          message: 'docs: screenshot update [skip ci]'
+          message: "docs: screenshot update [skip ci]"
           author_name: github-actions[bot]
           author_email: github-actions[bot]@users.noreply.github.com
 
@@ -98,8 +103,9 @@ jobs:
         env:
           DOCKER_USER: ${{secrets.DOCKERHUB_USERNAME}}
           DOCKER_PASS: ${{secrets.DOCKERHUB_PASSWORD}}
+          DOCKER_REPO: (${{inputs.image-name}} || ${{github.event.repository.owner.login}}/${{github.event.repository.name}})
         with:
-          destination_container_repo: ${{inputs.image-name}}
+          destination_container_repo: ${{env.DOCKER_REPO}}
           provider: dockerhub
           short_description: ${{env.REPOSITORY_DESCRIPTION}}
           readme_file: README.md

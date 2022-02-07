@@ -1,4 +1,4 @@
-name: Loader
+name: Tester
 
 on:
   workflow_call:
@@ -7,7 +7,7 @@ on:
         description: Enter a name for the job
         type: string
         required: false
-        default: Loader
+        default: 🧪 Run Tests
 
       runs-on:
         description: use runs-on to define the type of machine to run the job on
@@ -29,7 +29,7 @@ on:
       image-name:
         description: Enter the name of the image
         type: string
-        required: true
+        required: false
 
       image-tag:
         description: Enter the label that will serve to identify the image in future works
@@ -58,8 +58,7 @@ jobs:
       - name: Load Image
         run: docker load --input /tmp/${{inputs.image-tag}}.tar
 
-      - name: Show All Images
-        run: docker image ls
-
       - name: Run Command
-        run: docker run ${{inputs.image-name}}:${{inputs.image-tag}} ${{inputs.command}}
+        env:
+          IMAGE: (${{inputs.image-name}} || ${{github.event.repository.owner.login}}/${{github.event.repository.name}})
+        run: docker run ${{env.IMAGE}}:${{inputs.image-tag}} ${{inputs.command}}

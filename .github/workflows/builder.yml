@@ -7,7 +7,7 @@ on:
         description: Enter a name for the job
         type: string
         required: false
-        default: Builder
+        default: 🛠️ Build Project
 
       runs-on:
         description: use runs-on to define the type of machine to run the job on
@@ -30,7 +30,7 @@ on:
       image-name:
         description: Enter the name of the image
         type: string
-        required: true
+        required: false
 
       image-tag:
         description: Enter the label that will serve to identify the image in future works
@@ -55,13 +55,15 @@ jobs:
 
       - name: Build and Export
         uses: docker/build-push-action@v2
+        env:
+          IMAGE: (${{inputs.image-name}} || ${{github.event.repository.owner.login}}/${{github.event.repository.name}})
         with:
           context: .
           file: ${{inputs.dockerfile}}
           outputs: type=docker,dest=/tmp/${{inputs.image-tag}}.tar
           tags: |
-            docker.io/${{inputs.image-name}}:${{inputs.image-tag}}
-            ghcr.io/${{inputs.image-name}}:${{inputs.image-tag}}
+            docker.io/${{env.IMAGE}}:${{inputs.image-tag}}
+            ghcr.io/${{env.IMAGE}}:${{inputs.image-tag}}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2

@@ -1,4 +1,4 @@
-name: CodeQL
+name: Analyzer
 
 on:
   workflow_call:
@@ -7,7 +7,7 @@ on:
         description: Enter a name for the job
         type: string
         required: false
-        default: CodeQL Scan
+        default: 🔍 CodeQL Scan
 
       timeout-minutes:
         description: Specifies the maximum execution time of the job (in minutes)
