@@ -44,12 +44,6 @@ on:
         required: false
         default: README.md
 
-      pre-release:
-        description: specifies if this is a pre-release
-        type: boolean
-        required: false
-        default: false
-
     secrets:
       DOCKERHUB_USERNAME:
         required: false
@@ -80,12 +74,10 @@ jobs:
           ref: ${{env.REPOSITORY_DEFAULT_BRANCH}}
 
       - name: Update Version in package.json File
-        if: ${{!inputs.pre-release}}
         run: npm version ${{github.event.release.tag_name}} --allow-same-version --no-git-tag-version
 
       - name: Commit Release Files
         uses: EndBug/add-and-commit@v8
-        if: ${{!inputs.pre-release}}
         with:
           add: package.json
           message: "build: version updated [skip ci]"
@@ -94,40 +86,33 @@ jobs:
 
       - name: Download artifact
         uses: actions/download-artifact@v2
-        if: ${{!inputs.pre-release}}
         with:
           name: ${{inputs.image-tag}}
           path: /tmp
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-        if: ${{!inputs.pre-release}}
 
       - name: Login to DockerHub
         uses: docker/login-action@v1
-        if: ${{!inputs.pre-release}}
         with:
           username: ${{secrets.DOCKERHUB_USERNAME}}
           password: ${{secrets.DOCKERHUB_TOKEN}}
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
-        if: ${{!inputs.pre-release}}
         with:
           registry: ghcr.io
           username: ${{secrets.GHCR_USERNAME}}
           password: ${{secrets.PERSONAL_ACCESS_TOKEN}}
 
       - name: Load Image
-        if: ${{!inputs.pre-release}}
         run: docker load --input /tmp/${{inputs.image-tag}}.tar
 
       - name: Show All Images
-        if: ${{!inputs.pre-release}}
         run: docker image ls
 
       - name: Add New Tags
-        if: ${{!inputs.pre-release}}
         env:
           RELEASE: ${{github.event.release.tag_name}}
         run: |
@@ -135,5 +120,4 @@ jobs:
           docker image tag ${{inputs.image-name}} ghcr.io/${{inputs.image-name}}:${{env.RELEASE}}
 
       - name: Publish Image
-        if: ${{!inputs.pre-release}}
         run: docker image push -a ${{inputs.image-name}}
