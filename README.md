@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Starter guide for new projects
 
 This is a starter guide that will work for most projects built with javascript, however, some of the methods and technologies used in this guide could apply to any project regardless of the language they are based on. It is possible that the needs are very specific for some projects, in these cases the most optimal thing is to follow the standards that will be mentioned in this guide and apply the necessary solutions.
@@ -83,3 +84,6 @@ npm init
 ```
 yarn init
 ```
+=======
+# .github
+>>>>>>> 62ddbadd84ad9e6d1363845c94f77064dc9dfd29
