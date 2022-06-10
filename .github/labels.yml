@@ -47,6 +47,10 @@
 - name: bug
   color: d6000a
   description: Something isn't working
+  
+- name: security
+  color: 8338ec
+  description: A security issue was found
 
 - name: major
   color: 00356A
