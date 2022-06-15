@@ -9,7 +9,7 @@ jobs:
     name: ✨ Updating Repository
     runs-on: ubuntu-latest
     timeout-minutes: 1
-     permissions:
+    permissions:
       issues: write
       pull-requests: write
     steps:
