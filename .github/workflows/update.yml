@@ -8,8 +8,8 @@ jobs:
   update:
     name: ✨ Updating Repository
     runs-on: ubuntu-latest
-    timeout-minutes: 25
-    permissions:
+    timeout-minutes: 0.5
+     permissions:
       issues: write
       pull-requests: write
     steps:
