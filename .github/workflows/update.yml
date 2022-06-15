@@ -1,5 +1,11 @@
 on:
   workflow_call:
+    inputs:
+      GLOBAL_TEMPLATE_REPOSITORY:
+        description: Specifies which repository will be used to generate the readme file.
+        type: string
+        required: false
+        default: luisfalconmx/luisfalconmx
     secrets:
       PERSONAL_ACCESS_TOKEN:
         required: true

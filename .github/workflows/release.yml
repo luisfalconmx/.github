@@ -5,7 +5,7 @@ on:
 
 jobs:
   update_release_draft:
-    name: 📜 Creating Release Notes
+    name: 📜 Creating Notes
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
