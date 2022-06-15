@@ -1,0 +1,20 @@
+name: Release Drafter
+
+on:
+  workflow_call:
+
+jobs:
+  update_release_draft:
+    name: 📜 Creating Release Notes
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
