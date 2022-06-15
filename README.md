@@ -45,7 +45,7 @@ on:
       - main
 
 jobs:
-  update:
+  release:
     name: Release
     uses: luisfalconmx/.github/.github/workflows/release.yml@main
 ```
