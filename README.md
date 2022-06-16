@@ -10,7 +10,7 @@ Create a `README.md` file with the next content:
 
 Create a new file in `.github/workflows/update.yml`
 ``` yaml
-name: Maintain
+name: Update
 
 on:
   workflow_dispatch:
