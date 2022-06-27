@@ -124,3 +124,12 @@ jobs:
     name: Release
     uses: luisfalconmx/.github/.github/workflows/release.yml@main
 ```
+
+## Linters and more
+
+See the following links to configure linters and project configurations:
+- [https://github.com/okonet/lint-staged#examples](https://github.com/okonet/lint-staged#examples)
+- [https://www.npmjs.com/package/husky](https://www.npmjs.com/package/husky)
+- [https://github.com/conventional-changelog/commitlint#config](https://github.com/conventional-changelog/commitlint#config)
+- [https://github.com/luisfalconmx/create-spa-app/blob/main/.husky/pre-commit](https://github.com/luisfalconmx/create-spa-app/blob/main/.husky/pre-commit)
+- [https://github.com/luisfalconmx/instagram-clon](https://github.com/luisfalconmx/instagram-clon)
