@@ -68,3 +68,8 @@
 - name: hacktoberfest
   color: f74700
   description: hacktoberfest.digitalocean.com
+
+# GitHub Labels
+- name: help wanted
+  color: 7209b7
+  description: Indicates that a maintainer wants help on an issue or pull request
