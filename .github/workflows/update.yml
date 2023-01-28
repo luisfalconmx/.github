@@ -5,7 +5,12 @@ on:
         description: Specifies which repository will be used to generate the readme file.
         type: string
         required: false
-        default: luisfalconmx/luisfalconmx
+        default: luisfalconmx/.github
+      screenshot:
+        description: Specifies if you want take a screenshot of the website
+        type: boolean
+        required: false
+        default: false
     secrets:
       PERSONAL_ACCESS_TOKEN:
         required: true
@@ -59,20 +64,25 @@ jobs:
 
       - name: Screenshot Website
         uses: swinton/screenshot-website@v1.x
+        if: ${{inputs.screenshot}}
         with:
           source: ${{env.REPOSITORY_HOMEPAGE_URL}}
           destination: screenshot.png
 
       - name: Download Screenshot Artifact
         uses: actions/download-artifact@v2
+        if: ${{inputs.screenshot}}
         with:
           name: screenshot
           path: .github/
 
-      - run: rm -Rf .git/COMMIT_EDITMSG
+      - name: Remove temporal commit files
+        if: ${{inputs.screenshot}}
+        run: rm -Rf .git/COMMIT_EDITMSG
 
       - name: Commit Screenshot
         uses: EndBug/add-and-commit@v8
+        if: ${{inputs.screenshot}}
         with:
           add: .github/screenshot.png
           message: "docs: screenshot update [skip ci]"
