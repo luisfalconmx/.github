@@ -68,7 +68,6 @@ jobs:
         with:
           source: ${{env.REPOSITORY_HOMEPAGE_URL}}
           destination: screenshot.png
-          width: 650
 
       - name: Download Screenshot Artifact
         uses: actions/download-artifact@v2
