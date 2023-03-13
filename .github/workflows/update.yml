@@ -5,7 +5,7 @@ on:
         description: Specifies which repository will be used to generate the readme file.
         type: string
         required: false
-        default: luisfalconmx/.github
+        default: luisfalconmx/luisfalconmx
       screenshot:
         description: Specifies if you want take a screenshot of the website
         type: boolean

@@ -26,8 +26,8 @@ jobs:
 Create a `README.md` file with the next content:
 
 ```markdown
-<!-- START .github/README.template.md -->
-<!-- END .github/README.template.md -->
+<!-- START .github/README_TEMPLATE/frontend.template.md -->
+<!-- END .github/README_TEMPLATE/frontend.template.md -->
 ```
 
 Create a new file in `.github/workflows/update.yml`
