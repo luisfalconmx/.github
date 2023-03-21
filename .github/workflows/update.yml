@@ -10,7 +10,7 @@ on:
         description: Specifies if you want take a screenshot of the website
         type: boolean
         required: false
-        default: false
+        default: true
     secrets:
       PERSONAL_ACCESS_TOKEN:
         required: true

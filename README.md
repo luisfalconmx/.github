@@ -44,7 +44,7 @@ jobs:
     name: Maintain
     uses: luisfalconmx/.github/.github/workflows/update.yml@main
     secrets:
-      PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+      PERSONAL_ACCESS_TOKEN: ${{secrets.PERSONAL_ACCESS_TOKEN}}
 ```
 
 Make sure to define the secret `PERSONAL_ACCESS_TOKEN` in your repository
