@@ -11,16 +11,6 @@ on:
         type: boolean
         required: false
         default: true
-      imgType:
-        description: defines image type.
-        type: string
-        required: false
-        default: "jpeg"
-      darkMode:
-        description: Emulate preference of dark color scheme (prefers-color-scheme).
-        type: boolean
-        required: false
-        default: false
     secrets:
       PERSONAL_ACCESS_TOKEN:
         required: true
@@ -77,22 +67,15 @@ jobs:
         if: ${{inputs.screenshot}}
         with:
           source: ${{env.REPOSITORY_HOMEPAGE_URL}}
-          destination: screenshot.${{inputs.imgType}}
-          width: 1280
-          height: 900
-          type: ${{inputs.imgType}}
-          darkMode: ${{inputs.darkMode}}
+          destination: screenshot.png
 
       - name: FullSize Screenshot Website
         uses: swinton/screenshot-website@v1.x
         if: ${{inputs.screenshot}}
         with:
           source: ${{env.REPOSITORY_HOMEPAGE_URL}}
-          destination: full-screenshot.${{inputs.imgType}}
-          width: 1280
-          type: ${{inputs.imgType}}
-          darkMode: ${{inputs.darkMode}}
-          fullPage: true
+          destination: full-screenshot.png
+          full-page: true
 
       - name: Download Screenshot Artifact
         uses: actions/download-artifact@v2
