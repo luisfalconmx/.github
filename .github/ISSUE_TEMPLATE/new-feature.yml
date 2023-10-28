@@ -1,0 +1,17 @@
+name: New feature
+description: Suggest or request a new feature
+labels: ["feat"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Describe the feature you'd like to see added to the project.
+
+  - type: input
+    id: description
+    attributes:
+      label: Description
+      description: Describe the feature you'd like to see added to the project.
+      placeholder: I'd like to see...
+    validations:
+      required: true
