@@ -57,23 +57,26 @@ body:
         - 14.x
         - 12.x
         - 10.x
-      default: 18.x
+      default: 1
     validations:
       required: true
 
-  - type: dropdown
+  - type: checkboxes
     id: browser
     attributes:
       label: Browser
       description: What browser are you using?
       options:
-        - Chrome
-        - Firefox
-        - Safari
-        - Edge
-        - Other
+        - label: Chrome
+        - label: Firefox
+        - label: Safari
+        - label: Edge
+        - label: Internet Explorer
+        - label: Opera
+        - label: Brave
+        - label: Other
     validations:
-      required: false
+      required: true
 
   - type: dropdown
     id: operating-system
