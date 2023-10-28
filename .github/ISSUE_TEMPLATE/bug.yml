@@ -2,6 +2,16 @@ name: Bug
 description: Report a bug encountered while operating this project
 labels: ["bug"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        Before submitting a bug, please make sure you've done the following:
+
+        - Searched existing issues to make sure this bug hasn't already been reported
+        - Describe the bug you're experiencing
+        - Provide a link to an existing issue if possible
+        - Provide as much detail as possible in your report
+
   - type: checkboxes
     attributes:
       label: Is there an existing issue for this?
@@ -22,7 +32,7 @@ body:
   - type: input
     id: url
     attributes:
-      label: URL
+      label: URL of the issue you encountered
       description: What URL were you on when you encountered the bug?
       placeholder: https://example.com
     validations:

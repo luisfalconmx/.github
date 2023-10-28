@@ -5,7 +5,29 @@ body:
   - type: markdown
     attributes:
       value: |
-        Describe the feature you'd like to see added to the project.
+        Before submitting a feature request, please make sure you've done the following:
+
+        - Searched existing issues to make sure this feature hasn't already been requested
+        - Describe the feature you'd like to see added to the project
+        - Provide a link to an existing issue if possible
+        - Provide as much detail as possible in your request
+
+  - type: checkboxes
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for the feature you'd like to see added.
+      options:
+        - label: I have searched the existing issues
+          required: true
+
+  - type: input
+    id: ticket
+    attributes:
+      label: Link to existing issue
+      description: If there is an existing issue, please link to it here.
+      placeholder: JIRA-123
+    validations:
+      required: false
 
   - type: input
     id: description
@@ -15,3 +37,8 @@ body:
       placeholder: I'd like to see...
     validations:
       required: true
+
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for suggesting a new feature! We appreciate your feedback.
