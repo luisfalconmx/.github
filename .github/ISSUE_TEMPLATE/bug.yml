@@ -12,6 +12,8 @@ body:
         - Provide a link to an existing issue if possible
         - Provide as much detail as possible in your report
 
+        ---
+
   - type: checkboxes
     attributes:
       label: Is there an existing issue for this?
