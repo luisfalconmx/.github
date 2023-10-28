@@ -41,4 +41,5 @@ body:
   - type: markdown
     attributes:
       value: |
+        ---
         Thanks for suggesting a new feature! We appreciate your feedback.

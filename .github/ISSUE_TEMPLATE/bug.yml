@@ -1,4 +1,4 @@
-name: Bug
+name: Bug Report
 description: Report a bug encountered while operating this project
 labels: ["bug"]
 body:
@@ -133,4 +133,5 @@ body:
   - type: markdown
     attributes:
       value: |
+        ---
         Thanks for taking the time to report this issue! We'll use the information you've provided to investigate and address the problem.
