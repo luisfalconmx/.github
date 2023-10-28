@@ -19,6 +19,15 @@ body:
     validations:
       required: false
 
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      description: What URL were you on when you encountered the bug?
+      placeholder: https://example.com
+    validations:
+      required: false
+
   - type: textarea
     attributes:
       label: Current Behavior
@@ -39,9 +48,9 @@ body:
       description: Steps to reproduce the behavior.
       placeholder: |
         1. In this environment...
-        1. With this config...
-        1. Run '...'
-        1. See error...
+        2. With this config...
+        3. Run '...'
+        4. See error...
     validations:
       required: false
 
