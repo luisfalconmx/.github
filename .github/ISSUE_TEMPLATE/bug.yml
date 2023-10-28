@@ -1,6 +1,5 @@
 name: Bug
 description: Report a bug encountered while operating this project
-title: "[BUG] <title>"
 labels: ["bug"]
 body:
   - type: checkboxes
@@ -11,19 +10,28 @@ body:
         - label: I have searched the existing issues
           required: true
 
+  - type: input
+    id: ticket
+    attributes:
+      label: Link to existing issue
+      description: If there is an existing issue, please link to it here.
+      placeholder: JIRA-123
+    validations:
+      required: false
+
   - type: textarea
     attributes:
       label: Current Behavior
       description: A concise description of what you're experiencing.
     validations:
-      required: false
+      required: true
 
   - type: textarea
     attributes:
       label: Expected Behavior
       description: A concise description of what you expected to happen.
     validations:
-      required: false
+      required: true
 
   - type: textarea
     attributes:
@@ -43,18 +51,13 @@ body:
       label: Node.js Version
       description: What version of Node.js are you using?
       options:
-        - label: 18.x
-          value: 18.x
-        - label: 16.x
-          value: 16.x
-        - label: 14.x
-          value: 14.x
-        - label: 12.x
-          value: 12.x
-        - label: 10.x
-          value: 10.x
-        - label: Other
-          value: other
+        - 20.x
+        - 18.x
+        - 16.x
+        - 14.x
+        - 12.x
+        - 10.x
+      default: 18.x
     validations:
       required: true
 
@@ -64,18 +67,13 @@ body:
       label: Browser
       description: What browser are you using?
       options:
-        - label: Chrome
-          value: chrome
-        - label: Firefox
-          value: firefox
-        - label: Safari
-          value: safari
-        - label: Edge
-          value: edge
-        - label: Other
-          value: other
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
     validations:
-      required: true
+      required: false
 
   - type: dropdown
     id: operating-system
@@ -83,18 +81,20 @@ body:
       label: Operating System
       description: What operating system are you using?
       options:
-        - label: Windows
-          value: windows
-        - label: macOS
-          value: macos
-        - label: Linux
-          value: linux
-        - label: Android
-          value: android
-        - label: iOS
-          value: ios
-        - label: Other
-          value: other
+        - Windows
+        - macOS
+        - Linux
+        - Android
+        - iOS
+    validations:
+      required: true
+
+  - type: input
+    id: operating-system-version
+    attributes:
+      label: Operating System Version
+      description: What version of the operating system are you using?
+      placeholder: IOS 14.5.1, Windows 10, etc.
     validations:
       required: true
 
@@ -107,3 +107,8 @@ body:
         Tip: You can attach images or log files by clicking this area to highlight it and then dragging files in.
     validations:
       required: false
+
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report this issue! We'll use the information you've provided to investigate and address the problem.
