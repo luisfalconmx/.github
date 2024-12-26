@@ -1,0 +1,106 @@
+on:
+  workflow_call:
+    inputs:
+      repository:
+        description: Specifies which repository will be used to generate the readme file.
+        type: string
+        required: false
+        default: luisfalconmx/luisfalconmx
+      screenshot:
+        description: Specifies if you want take a screenshot of the website
+        type: boolean
+        required: false
+        default: true
+    secrets:
+      PERSONAL_ACCESS_TOKEN:
+        required: true
+
+jobs:
+  update:
+    name: ✨ Updating Repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - name: GitHub Repository Metadata
+        uses: varunsridharan/action-repository-meta@main
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        with:
+          token: ${{secrets.PERSONAL_ACCESS_TOKEN}}
+          ref: ${{env.REPOSITORY_DEFAULT_BRANCH}}
+
+      - name: Disable "include administrators" branch protection
+        uses: benjefferies/branch-protection-bot@master
+        if: always()
+        with:
+          access_token: ${{secrets.PERSONAL_ACCESS_TOKEN}}
+          branch: ${{env.REPOSITORY_DEFAULT_BRANCH}}
+          enforce_admins: false
+
+      - name: Synchronize Labels
+        uses: julb/action-manage-label@v1
+        with:
+          from: https://raw.githubusercontent.com/luisfalconmx/.github/main/.github/labels.yml
+          skip_delete: false
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+      - name: Dynamic template render
+        uses: varunsridharan/action-dynamic-readme@main
+        with:
+          GLOBAL_TEMPLATE_REPOSITORY: ${{inputs.repository}}
+          files: README.md
+          committer_name: github-actions[bot]
+          committer_email: github-actions[bot]@users.noreply.github.com
+          commit_message: "docs: update readme file [skip ci]"
+        env:
+          GITHUB_TOKEN: ${{secrets.PERSONAL_ACCESS_TOKEN}}
+
+      - name: Screenshot Website
+        uses: swinton/screenshot-website@v1.x
+        if: ${{inputs.screenshot}}
+        with:
+          source: ${{env.REPOSITORY_HOMEPAGE_URL}}
+          destination: screenshot.png
+
+      - name: FullSize Screenshot Website
+        uses: swinton/screenshot-website@v1.x
+        if: ${{inputs.screenshot}}
+        with:
+          source: ${{env.REPOSITORY_HOMEPAGE_URL}}
+          destination: full-screenshot.png
+          full-page: true
+
+      - name: Download Screenshot Artifact
+        uses: actions/download-artifact@v2
+        if: ${{inputs.screenshot}}
+        with:
+          name: screenshot
+          path: .github/
+
+      - name: Remove temporal commit files
+        if: ${{inputs.screenshot}}
+        run: rm -Rf .git/COMMIT_EDITMSG
+
+      - name: Commit Screenshot
+        uses: EndBug/add-and-commit@v8
+        if: ${{inputs.screenshot}}
+        with:
+          add: .github/screenshot.png
+          message: "docs: screenshot update [skip ci]"
+          author_name: github-actions[bot]
+          author_email: github-actions[bot]@users.noreply.github.com
+
+      - name: Enable "include administrators" branch protection
+        uses: benjefferies/branch-protection-bot@master
+        if: always()
+        with:
+          access_token: ${{secrets.PERSONAL_ACCESS_TOKEN}}
+          branch: ${{env.REPOSITORY_DEFAULT_BRANCH}}
+          enforce_admins: true
