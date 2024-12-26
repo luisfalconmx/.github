@@ -21,8 +21,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     permissions:
-      issues: write
-      pull-requests: write
+      issues: none
+      pull-requests: none
     steps:
       - name: GitHub Repository Metadata
         uses: varunsridharan/action-repository-meta@main
