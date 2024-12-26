@@ -43,14 +43,6 @@ jobs:
           branch: ${{env.REPOSITORY_DEFAULT_BRANCH}}
           enforce_admins: false
 
-      - name: Synchronize Labels
-        uses: julb/action-manage-label@v1
-        with:
-          from: https://raw.githubusercontent.com/luisfalconmx/.github/main/.github/labels.yml
-          skip_delete: false
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
       - name: Dynamic template render
         uses: varunsridharan/action-dynamic-readme@main
         with:
